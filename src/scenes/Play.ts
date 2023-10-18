@@ -8,7 +8,7 @@ export default class Play extends Phaser.Scene {
   right?: Phaser.Input.Keyboard.Key;
 
   starfield?: Phaser.GameObjects.TileSprite;
-  spinner?: Phaser.GameObjects.Shape;
+  rocket?: Phaser.GameObjects.Sprite;
 
   rotationSpeed = Phaser.Math.PI2 / 1000; // radians per millisecond
 
@@ -18,6 +18,7 @@ export default class Play extends Phaser.Scene {
 
   preload() {
     this.load.image("starfield", starfieldUrl);
+    this.load.image("rocket", "./assets/Rocket.png");
   }
 
   #addKey(
@@ -41,22 +42,22 @@ export default class Play extends Phaser.Scene {
       )
       .setOrigin(0, 0);
 
-    this.spinner = this.add.rectangle(100, 100, 50, 50, 0xff0000);
+    this.rocket! = new Phaser.GameObjects.Sprite(this, 500, 500, "rocket");
   }
 
   update(_timeMs: number, delta: number) {
     this.starfield!.tilePositionX -= 4;
 
     if (this.left!.isDown) {
-      this.spinner!.rotation -= delta * this.rotationSpeed;
+      this.rocket!.rotation -= delta * this.rotationSpeed;
     }
     if (this.right!.isDown) {
-      this.spinner!.rotation += delta * this.rotationSpeed;
+      this.rocket!.rotation += delta * this.rotationSpeed;
     }
 
     if (this.fire!.isDown) {
       this.tweens.add({
-        targets: this.spinner,
+        targets: this.rocket,
         scale: { from: 1.5, to: 1 },
         duration: 300,
         ease: Phaser.Math.Easing.Sine.Out,
