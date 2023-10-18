@@ -42,17 +42,18 @@ export default class Play extends Phaser.Scene {
       )
       .setOrigin(0, 0);
 
-    this.rocket! = new Phaser.GameObjects.Sprite(this, 500, 500, "rocket");
+    this.rocket = this.add.sprite(320, 400, "rocket").setScale(4);
   }
 
   update(_timeMs: number, delta: number) {
     this.starfield!.tilePositionX -= 4;
+    const moveSpeed = 5;
 
     if (this.left!.isDown) {
-      this.rocket!.rotation -= delta * this.rotationSpeed;
+      this.rocket!.x -= delta * moveSpeed;
     }
     if (this.right!.isDown) {
-      this.rocket!.rotation += delta * this.rotationSpeed;
+      this.rocket!.x += delta * moveSpeed;
     }
 
     if (this.fire!.isDown) {
