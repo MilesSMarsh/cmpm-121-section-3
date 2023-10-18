@@ -3,7 +3,6 @@ import * as Phaser from "phaser";
 import starfieldUrl from "/assets/starfield.png";
 
 export default class Play extends Phaser.Scene {
-
   moveSpeed = 1;
   isFiring = false;
 
@@ -47,7 +46,6 @@ export default class Play extends Phaser.Scene {
       .setOrigin(0, 0);
 
     this.rocket = this.add.sprite(320, 400, "rocket").setScale(4);
-
   }
 
   update(_timeMs: number, delta: number) {
@@ -62,12 +60,11 @@ export default class Play extends Phaser.Scene {
 
     if (this.fire!.isDown && this.isFiring!) {
       this.isFiring = true;
-
     }
 
-    if(this.isFiring){
+    if (this.isFiring) {
       this.rocket!.y += this.moveSpeed * delta;
-      if(this.rocket!.y < 0){
+      if (this.rocket!.y < 0) {
         this.isFiring = false;
         this.rocket!.y = 400;
       }
