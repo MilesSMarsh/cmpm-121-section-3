@@ -3,6 +3,10 @@ import * as Phaser from "phaser";
 import starfieldUrl from "/assets/starfield.png";
 
 export default class Play extends Phaser.Scene {
+
+  moveSpeed = 1;
+  isFiring = false;
+
   fire?: Phaser.Input.Keyboard.Key;
   left?: Phaser.Input.Keyboard.Key;
   right?: Phaser.Input.Keyboard.Key;
@@ -43,26 +47,30 @@ export default class Play extends Phaser.Scene {
       .setOrigin(0, 0);
 
     this.rocket = this.add.sprite(320, 400, "rocket").setScale(4);
+
   }
 
   update(_timeMs: number, delta: number) {
     this.starfield!.tilePositionX -= 4;
-    const moveSpeed = 5;
 
     if (this.left!.isDown) {
-      this.rocket!.x -= delta * moveSpeed;
+      this.rocket!.x -= delta * this.moveSpeed;
     }
     if (this.right!.isDown) {
-      this.rocket!.x += delta * moveSpeed;
+      this.rocket!.x += delta * this.moveSpeed;
     }
 
-    if (this.fire!.isDown) {
-      this.tweens.add({
-        targets: this.rocket,
-        scale: { from: 1.5, to: 1 },
-        duration: 300,
-        ease: Phaser.Math.Easing.Sine.Out,
-      });
+    if (this.fire!.isDown && this.isFiring!) {
+      this.isFiring = true;
+
+    }
+
+    if(this.isFiring){
+      this.rocket!.y += this.moveSpeed * delta;
+      if(this.rocket!.y < 0){
+        this.isFiring = false;
+        this.rocket!.y = 400;
+      }
     }
   }
 }
